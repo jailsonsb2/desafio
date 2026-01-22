@@ -2,5 +2,7 @@ pandas
 spacy
 openpyxl
 argparse
+
+
 # Modelo de linguagem em português (instale via comando abaixo se o pip não resolver)
 # https://github.com/explosion/spacy-models/releases/download/pt_core_news_lg-3.7.0/pt_core_news_lg-3.7.0.tar.gz
