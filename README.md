@@ -114,3 +114,15 @@ Para fins de avaliação e futura incorporação ao ecossistema do GDF, detalham
 
 A classe `DataProtector` foi construída de forma modular. Para transformar esta solução em uma API (Microserviço) para o Participa DF, basta instanciar a classe e expor o método `.analyze_text(str)` via **FastAPI** ou **Flask**, permitindo validação em tempo real durante a digitação do cidadão.
 
+## 🌟 Diferencial: API Rest (FastAPI)
+
+Além do script de execução local, o projeto inclui uma **API Rest pronta para produção** (`api.py`), demonstrando como esta solução pode ser integrada a um portal como um microserviço.
+
+### Funcionalidades da API:
+1.  **POST /analisar_texto:** Recebe um JSON e valida em tempo real (útil para alertar o cidadão enquanto ele digita).
+2.  **POST /analisar_arquivo:** Recebe upload de CSV/XLSX e retorna o relatório processado.
+
+### Como testar a API (Opcional):
+1. Instale o servidor: `pip install fastapi uvicorn python-multipart`
+2. Rode: `uvicorn api:app --reload`
+3. Acesse a documentação interativa: `http://127.0.0.1:8000/docs`
