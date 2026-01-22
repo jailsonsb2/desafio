@@ -70,7 +70,7 @@ python -m spacy download pt_core_news_lg
 
 ---
 
-## 🚀 4. Instruções de Execução (Critério 2)
+## 🚀 4. Instruções de Execução
 
 O script suporta execução via linha de comando (CLI) e aceita arquivos **CSV** ou **Excel (.xlsx)**.
 
