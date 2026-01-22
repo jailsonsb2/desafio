@@ -11,7 +11,7 @@ A solução utiliza uma abordagem híbrida (Regex + NLP/spaCy + Análise de Cont
 
 ---
 
-## 📂 2. Estrutura do Projeto (Critério 3c)
+## 📂 2. Estrutura do Projeto 
 A organização dos arquivos segue uma lógica clara de separação entre documentação, dependências e código-fonte:
 
 ```text
@@ -26,15 +26,15 @@ A organização dos arquivos segue uma lógica clara de separação entre docume
 
 ---
 
-## ⚙️ 3. Instruções de Instalação e Dependência (Critério 1)
+## ⚙️ 3. Instruções de Instalação e Dependência 
 
-### Pré-requisitos (Critério 1a)
+### Pré-requisitos
 
 * **Linguagem:** Python 3.9 ou superior.
 * **Sistema Operacional:** Windows, Linux ou macOS.
 * **Acesso à Internet:** Para baixar pacotes e modelos de NLP.
 
-### Instalação Passo a Passo (Critério 1c)
+### Instalação Passo a Passo
 
 Siga os comandos abaixo sequencialmente para configurar o ambiente:
 
@@ -52,7 +52,7 @@ source venv/bin/activate
 
 ```
 
-**2. Instalar Dependências (Critério 1b):**
+**2. Instalar Dependências:**
 Utilize o gerenciador de pacotes `pip` com o arquivo fornecido.
 
 ```bash
@@ -85,7 +85,7 @@ python main.py
 
 *O script encontrará automaticamente o primeiro arquivo compatível na pasta.*
 
-### Comando Avançado (Argumentos Específicos) (Critério 2a)
+### Comando Avançado (Argumentos Específicos)
 
 Para especificar arquivos de entrada e saída:
 
@@ -101,7 +101,7 @@ python main.py --input "AMOSTRA_DADOS.csv" --output "RELATORIO_FINAL.csv"
 
 ---
 
-## 💾 5. Formato dos Dados (Critério 2b)
+## 💾 5. Formato dos Dados
 
 ### Entrada (Input)
 
@@ -119,7 +119,7 @@ Será gerado um arquivo `.csv` contendo as colunas originais acrescidas de:
 
 ---
 
-## 🧠 6. Lógica Implementada (Critério 3b)
+## 🧠 6. Lógica Implementada
 
 O código-fonte (`main.py`) possui comentários detalhados explicativo a lógica. Destaques:
 
@@ -129,7 +129,7 @@ O código-fonte (`main.py`) possui comentários detalhados explicativo a lógica
 
 ---
 
-## 🌟 Diferencial: API Rest (FastAPI)
+## 🌟 7. Diferencial: API Rest (FastAPI)
 
 Além do script de execução local, o projeto inclui uma **API Rest pronta para produção** (`api.py`), demonstrando como esta solução pode ser integrada a um portal como um microserviço.
 
