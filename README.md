@@ -1,118 +1,133 @@
-# Detector de Dados Pessoais (LGPD) - Desafio Participa DF
-### Categoria 1: Acesso à Informação
-
-Esta solução implementa um sistema automatizado para identificar e classificar pedidos de acesso à informação que contenham dados pessoais, garantindo a conformidade com a **LGPD (Lei Geral de Proteção de Dados)** sem comprometer a transparência pública exigida pela **LAI**.
-
----
-
-## 🎯 Motivação e Abordagem
-
-O maior desafio na anonimização de pedidos de LAI é o **falso positivo**. Sistemas tradicionais baseados apenas em Regex tendem a classificar números de processos (SEI), matrículas funcionais e inscrições imobiliárias erroneamente como telefones ou documentos pessoais.
-
-Nossa solução utiliza uma **Abordagem Híbrida e Contextual**:
-1.  **Regex de Alta Precisão:** Para padrões rígidos (CPF, E-mail).
-2.  **NLP (Processamento de Linguagem Natural):** Utilizando `spaCy` para identificar nomes de pessoas, onde não há padrão numérico.
-3.  **Análise de Contexto (Context Lookbehind):** Uma camada lógica que analisa as palavras *anteriores* a um número para decidir se ele é um dado sensível (ex: telefone) ou um dado público (ex: número de processo ou matrícula).
+# Detector Inteligente de Dados Pessoais (LGPD/LAI)
+### 1º Hackathon em Controle Social: Desafio Participa DF
+**Categoria 1:** Acesso à Informação
 
 ---
 
-## 🚀 Funcionalidades Principais
+## 📌 1. Visão Geral e Objetivo
+Este projeto consiste em uma solução automatizada para **identificar e classificar pedidos de Acesso à Informação** que contenham dados pessoais, garantindo conformidade com a LGPD.
 
-* **Suporte Multi-Formato:** Aceita nativamente arquivos **.CSV** (com detecção automática de separador `;` ou `,`) e planilhas Excel (** .XLSX, .XLS**).
-* **Execução Flexível:** Pode ser executado via linha de comando (CLI) ou em modo de detecção automática (varre a pasta).
-* **Tratamento de Codificação:** Lida automaticamente com arquivos UTF-8 e Latin-1 (comuns em exportações de sistemas antigos).
-* **Filtro de "Ruído" Corporativo:** Ignora e-mails institucionais genéricos (ex: `ouvidoria@`, `sac@`) para focar na proteção do cidadão.
+A solução utiliza uma abordagem híbrida (Regex + NLP/spaCy + Análise de Contexto) para diferenciar dados sensíveis (CPFs, Nomes, E-mails Pessoais) de dados públicos (Processos SEI, Matrículas, E-mails Institucionais), resolvendo o problema de falsos positivos.
 
 ---
 
-## 🛠️ Instalação
+## 📂 2. Estrutura do Projeto (Critério 3c)
+A organização dos arquivos segue uma lógica clara de separação entre documentação, dependências e código-fonte:
 
-### Pré-requisitos
-* Python 3.9 ou superior.
+```text
+/ (Raiz do Projeto)
+│
+├── main.py              # Script principal (CLI e Lógica de Detecção)
+├── api.py               # (Opcional) Interface API REST para integração web
+├── requirements.txt     # Lista de dependências para instalação automatizada
+└── README.md            # Documentação completa do projeto
 
-### 1. Instalar Dependências
-Execute o comando abaixo para instalar as bibliotecas necessárias (`pandas`, `spacy`, `openpyxl`):
+```
+
+---
+
+## ⚙️ 3. Instruções de Instalação e Dependência (Critério 1)
+
+### Pré-requisitos (Critério 1a)
+
+* **Linguagem:** Python 3.9 ou superior.
+* **Sistema Operacional:** Windows, Linux ou macOS.
+* **Acesso à Internet:** Para baixar pacotes e modelos de NLP.
+
+### Instalação Passo a Passo (Critério 1c)
+
+Siga os comandos abaixo sequencialmente para configurar o ambiente:
+
+**1. Criar e ativar um Ambiente Virtual (Recomendado):**
+Isso isola as dependências do projeto.
+
+```bash
+# Windows
+python -m venv venv
+.\venv\Scripts\activate
+
+# Linux/Mac
+python3 -m venv venv
+source venv/bin/activate
+
+```
+
+**2. Instalar Dependências (Critério 1b):**
+Utilize o gerenciador de pacotes `pip` com o arquivo fornecido.
 
 ```bash
 pip install -r requirements.txt
 
 ```
 
-### 2. Baixar o Modelo de NLP
-
-A solução utiliza o modelo de linguagem em português do spaCy. Recomendamos a versão `large` (lg) para maior precisão na detecção de nomes próprios.
+**3. Baixar o Modelo de Processamento de Linguagem (NLP):**
+Necessário para a biblioteca `spaCy` identificar nomes de pessoas.
 
 ```bash
 python -m spacy download pt_core_news_lg
 
 ```
 
-*(O sistema fará fallback automático para o modelo `sm` caso o `lg` não esteja disponível).*
-
 ---
 
-## 💻 Como Executar
+## 🚀 4. Instruções de Execução (Critério 2)
 
-A solução foi desenhada para ser flexível. Você pode rodar de duas formas:
+O script suporta execução via linha de comando (CLI) e aceita arquivos **CSV** ou **Excel (.xlsx)**.
 
-### Modo 1: Detecção Automática (Mais Simples)
+### Comando Básico (Detecção Automática)
 
-Basta colocar seu arquivo (CSV ou Excel) na mesma pasta do script e rodar. O sistema encontrará o arquivo automaticamente.
+Basta colocar o arquivo de dados na mesma pasta do script e rodar:
 
 ```bash
 python main.py
 
 ```
 
-### Modo 2: Linha de Comando (Avançado)
+*O script encontrará automaticamente o primeiro arquivo compatível na pasta.*
 
-Ideal para integração com pipelines ou para especificar arquivos exatos.
+### Comando Avançado (Argumentos Específicos) (Critério 2a)
+
+Para especificar arquivos de entrada e saída:
 
 ```bash
-python main.py --input "meu_arquivo.xlsx" --output "resultado_final.csv"
+python main.py --input "AMOSTRA_DADOS.csv" --output "RELATORIO_FINAL.csv"
 
 ```
 
-| Argumento | Descrição | Padrão |
+| Argumento | Descrição | Exemplo |
 | --- | --- | --- |
-| `--input` | Caminho do arquivo de entrada (.csv ou .xlsx). | Automático (primeiro da pasta) |
-| `--output` | Caminho para salvar o resultado. | `resultado_analise.csv` |
+| `--input` | Define o arquivo a ser analisado. | `--input dados_2025.xlsx` |
+| `--output` | Define o nome do arquivo de resultado. | `--output resultado.csv` |
 
 ---
 
-## 🧠 Detalhes da Implementação Técnica
+## 💾 5. Formato dos Dados (Critério 2b)
 
-Para fins de avaliação e futura incorporação ao ecossistema do GDF, detalhamos abaixo a lógica de cada componente:
+### Entrada (Input)
 
-### 1. Detecção de Telefones com "Context Lookbehind"
+O script aceita arquivos `.csv` (separados por vírgula ou ponto e vírgula) ou `.xlsx`.
 
-* **Problema:** Bases governamentais contêm muitos números de 8 ou 9 dígitos que não são telefones (Processos SEI, Matrículas, NIRE, Inscrições).
-* **Solução:** Implementamos uma verificação que "olha para trás" no texto. Se o número for precedido por termos como *"Processo"*, *"Matrícula"* ou *"Inscrição"*, ele é **ignorado**.
-* **Resultado:** Eliminação quase total de falsos positivos em pedidos técnicos.
+* **Requisito:** O arquivo deve conter ao menos uma coluna com texto livre (ex: "Pedido", "Descrição", "Texto Mascarado"). O script detecta essa coluna automaticamente.
 
-### 2. Tratamento de E-mails (Blacklist Inteligente)
+### Saída (Output)
 
-* **Lógica:** Nem todo e-mail é dado pessoal sensível. E-mails como `atendimento@empresa.com` ou `sic@df.gov.br` são públicos.
-* **Solução:** O algoritmo verifica o prefixo do e-mail. Se contiver termos de serviço (`sac`, `noreply`, `admin`), não é marcado como restrito, aumentando a precisão da classificação.
+Será gerado um arquivo `.csv` contendo as colunas originais acrescidas de:
 
-### 3. Detecção de Nomes (NLP)
-
-* **Lógica:** Regex não consegue distinguir "Maria Silva" de "Rua das Flores".
-* **Solução:** Utilizamos o modelo de Entidades Nomeadas (NER) do `spaCy`. Filtramos a entidade `PER` (Pessoa) e aplicamos regras extras (ex: ignorar nomes com apenas 1 palavra) para garantir que estamos protegendo cidadãos reais.
+1. **Classificacao:** "Público" ou "Restrito (Dados Pessoais)".
+2. **Dados_Encontrados:** Lista dos tipos detectados (ex: "CPF, NOME_PESSOA, EMAIL").
+3. **Texto_Snippet:** Trecho inicial do texto para conferência.
 
 ---
 
-## 📂 Estrutura do Projeto
+## 🧠 6. Lógica Implementada (Critério 3b)
 
-* `main.py`: Código fonte principal contendo a classe `DataProtector` e lógica de execução.
-* `requirements.txt`: Lista de dependências.
-* `README.md`: Documentação do projeto.
+O código-fonte (`main.py`) possui comentários detalhados explicativo a lógica. Destaques:
+
+* **Filtro de Contexto (Lookbehind):** Implementado para ignorar números de 8/9 dígitos precedidos por palavras como "Processo SEI", "Matrícula" ou "Inscrição", evitando falsos positivos.
+* **Blacklist de E-mails:** Ignora e-mails de serviço (`ouvidoria@`, `sac@`) para focar apenas em e-mails de cidadãos.
+* **NLP Híbrido:** Combina Regex (para padrões exatos) com IA (para nomes subjetivos).
 
 ---
-
-## 🔮 Roadmap (Sugestão de Incorporação)
-
-A classe `DataProtector` foi construída de forma modular. Para transformar esta solução em uma API (Microserviço) para o Participa DF, basta instanciar a classe e expor o método `.analyze_text(str)` via **FastAPI** ou **Flask**, permitindo validação em tempo real durante a digitação do cidadão.
 
 ## 🌟 Diferencial: API Rest (FastAPI)
 
